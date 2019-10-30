@@ -8,6 +8,31 @@ resource "aws_instance" "k8s-master" {
   tags = {
     Name = "k8s-master"
   }
+  
+  # Connection to execute the file & remote-exec provisioners.
+  connection {
+    host        = self.public_ip
+    type        = "ssh"
+    user        = "centos"
+    private_key = file("keys/k8sLaunchKey")
+  }
+
+  # Copy bootstrap.sh file
+  provisioner "file" {
+        source      = "k8s_files/bootstrap.sh"
+        destination = "/home/centos/bootstrap.sh"
+  }
+  # Copy bootstrap-master.sh file
+  provisioner "file" {
+        source      = "k8s_files/bootstrap_master.sh"
+        destination = "/home/centos/bootstrap_master.sh"
+  }
+  # Copy calico file
+  provisioner "file" {
+        source      = "k8s_files/calico.yaml"
+        destination = "/home/centos/bootstrap.sh"
+  }
+  
 }
 
 # Provision Docker k8s worker Node with centos 7.
@@ -20,6 +45,21 @@ resource "aws_instance" "k8s-worker-1" {
   tags = {
     Name = "k8s-worker-1"
   }
+  
+  # Connection to execute the file & remote-exec provisioners.
+  connection {
+    host        = self.public_ip
+    type        = "ssh"
+    user        = "centos"
+    private_key = file("keys/k8sLaunchKey")
+  }
+
+  # Copy bootstrap.sh file
+  provisioner "file" {
+        source      = "k8s_files/bootstrap.sh"
+        destination = "/home/centos/bootstrap.sh"
+  }
+  
 }
 
 
@@ -32,6 +72,20 @@ resource "aws_instance" "k8s-worker-2" {
   key_name               = aws_key_pair.k8sKeyPair.key_name
   tags = {
     Name = "k8s-worker-2"
+  }
+  
+  # Connection to execute the file & remote-exec provisioners.
+  connection {
+    host        = self.public_ip
+    type        = "ssh"
+    user        = "centos"
+    private_key = file("keys/k8sLaunchKey")
+  }
+
+  # Copy bootstrap.sh file
+  provisioner "file" {
+        source      = "k8s_files/bootstrap.sh"
+        destination = "/home/centos/bootstrap.sh"
   }
   
 }
