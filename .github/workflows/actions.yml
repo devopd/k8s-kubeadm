@@ -11,7 +11,7 @@ jobs:
      # Checkout.
      - uses: actions/checkout@v1
 
-     # Update
+     # Update.
      - name: Install terraform
        working-directory: /tmp
        run: |
