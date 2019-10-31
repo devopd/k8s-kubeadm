@@ -30,7 +30,7 @@ resource "aws_instance" "k8s-master" {
   # Copy calico file
   provisioner "file" {
         source      = "k8s_files/calico.yaml"
-        destination = "/home/centos/bootstrap.sh"
+        destination = "/home/centos/calico.yaml"
   }
   
 }
